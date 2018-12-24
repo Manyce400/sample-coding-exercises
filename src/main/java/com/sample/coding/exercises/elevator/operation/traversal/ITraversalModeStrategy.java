@@ -1,7 +1,8 @@
-package com.sample.coding.exercises.elevator.operation;
+package com.sample.coding.exercises.elevator.operation.traversal;
 
-import com.sample.coding.exercises.elevator.model.ElevatorInstruction;
-import com.sample.coding.exercises.elevator.model.ElevatorRunResult;
+import com.sample.coding.exercises.elevator.model.ElevatorDirectionE;
+import com.sample.coding.exercises.elevator.model.ElevatorOperationRequest;
+import com.sample.coding.exercises.elevator.model.ElevatorTraversalPath;
 
 import java.util.LinkedList;
 
@@ -10,17 +11,17 @@ import java.util.LinkedList;
  *
  * @author manyce400
  */
-public interface IOperationModeAlgo {
+public interface ITraversalModeStrategy {
 
 
     /**
      * Executes algo implementation for an elevator run given instructions.
      *
      * @param currentElevatorFloor the current floor that the elevator is on when it receives instruction.
-     * @param elevatorInstruction instructions to run a pickup and drop off implementation.
-     * @return ElevatorRunResult returns run results
+     * @param elevatorOperationRequest instructions to run a pickup and drop off implementation.
+     * @return ElevatorTraversalPath returns run results
      */
-    public ElevatorRunResult executeElevatorRun(int currentElevatorFloor, ElevatorInstruction elevatorInstruction);
+    public ElevatorTraversalPath executeElevatorRun(int currentElevatorFloor, ElevatorOperationRequest elevatorOperationRequest);
 
 
     default void computePathToDestinationFloor(int startFloor, int destinationFloor, LinkedList<Integer> traversalPath) {
@@ -44,6 +45,17 @@ public interface IOperationModeAlgo {
             // Elevator current floor is the same as the pickup floor, no further traversal required.
             //traversalPath.add(destinationFloor);
         }
+    }
+
+    default ElevatorDirectionE calculateElevatorDirection(ElevatorOperationRequest elevatorOperationRequest) {
+        int pickupFloor = elevatorOperationRequest.getPickupFloor();
+        int dropOffFloor = elevatorOperationRequest.getDropOffFloor();
+
+        if (pickupFloor < dropOffFloor) {
+            return ElevatorDirectionE.Up;
+        }
+
+        return ElevatorDirectionE.Down;
     }
 
 }

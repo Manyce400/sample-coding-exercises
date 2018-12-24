@@ -1,7 +1,8 @@
 package com.sample.coding.exercises.elevator.operation;
 
-import com.sample.coding.exercises.elevator.model.ElevatorInstruction;
-import com.sample.coding.exercises.elevator.model.ElevatorRunResult;
+import com.sample.coding.exercises.elevator.model.ElevatorOperationRequest;
+import com.sample.coding.exercises.elevator.model.ElevatorTraversalPath;
+import com.sample.coding.exercises.elevator.operation.traversal.InEfficientTraversalModeStrategy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +22,7 @@ public class InEfficientOperationModeAlgoTest {
     private LinkedList<Integer> traversalPath;
 
     @InjectMocks
-    private InEfficientOperationModeAlgo inEfficientOperationModeAlgo;
+    private InEfficientTraversalModeStrategy inEfficientOperationModeAlgo;
     
     @Before
     public void beforeTest() {
@@ -66,9 +67,9 @@ public class InEfficientOperationModeAlgoTest {
 
     @Test
     public void testComputeElevatorRunTraversal() {
-        ElevatorInstruction elevatorInstruction = new ElevatorInstruction(4, 1);
-        ElevatorRunResult elevatorRunResult = inEfficientOperationModeAlgo.executeElevatorRun(1, elevatorInstruction);
-        System.out.println("elevatorRunResult = " + elevatorRunResult);
+        ElevatorOperationRequest elevatorOperationRequest = new ElevatorOperationRequest(4, 1);
+        ElevatorTraversalPath elevatorTraversalPath = inEfficientOperationModeAlgo.executeElevatorRun(1, elevatorOperationRequest);
+        System.out.println("elevatorTraversalPath = " + elevatorTraversalPath);
     }
 
 }

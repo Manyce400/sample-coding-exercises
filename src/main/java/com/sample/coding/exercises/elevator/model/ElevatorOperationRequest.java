@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
 /**
  * @author manyce400
  */
-public class ElevatorInstruction {
+public class ElevatorOperationRequest {
 
 
     // Floor where a pickup will be executed.
@@ -22,7 +22,7 @@ public class ElevatorInstruction {
     private int dropOffFloor;
 
 
-    public ElevatorInstruction(int pickupFloor, int dropOffFloor) {
+    public ElevatorOperationRequest(int pickupFloor, int dropOffFloor) {
         this.pickupFloor = pickupFloor;
         this.dropOffFloor = dropOffFloor;
     }
@@ -54,7 +54,7 @@ public class ElevatorInstruction {
 
     @Override
     public boolean equals(Object obj) {
-        ElevatorInstruction other = (ElevatorInstruction)obj;
+        ElevatorOperationRequest other = (ElevatorOperationRequest)obj;
         return new EqualsBuilder()
                 .append(pickupFloor, other.pickupFloor)
                 .append(dropOffFloor, other.dropOffFloor)
@@ -67,5 +67,10 @@ public class ElevatorInstruction {
                 .append("pickupFloor", pickupFloor)
                 .append("dropOffFloor", dropOffFloor)
                 .toString();
+    }
+
+
+    public static ElevatorOperationRequest newInstance(int pickupFloor, int dropOffFloor) {
+        return new ElevatorOperationRequest(pickupFloor, dropOffFloor);
     }
 }
