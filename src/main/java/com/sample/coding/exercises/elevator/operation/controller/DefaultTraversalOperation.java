@@ -69,6 +69,7 @@ public class DefaultTraversalOperation implements ITraversalOperation {
 
         if (elevatorTraversalPaths.size() > 0) {
             ElevatorTraversalPath primaryTraversalPath = elevatorTraversalPaths.getFirst();
+            System.out.println("Beginning processing of primaryTraversalPath = " + primaryTraversalPath);
 
             if(primaryTraversalPath.isTraversalComplete()) {
                 elevatorTraversalPaths.removeFirst();
@@ -96,33 +97,38 @@ public class DefaultTraversalOperation implements ITraversalOperation {
         try {
             lock.writeLock().lock();
 
-
-            // Figure out the current floor and target floors for primary route and executet movement
-            int currentFloor = elevator.getCurrentFloor();
             int pickUpFloor = elevatorTraversalPath.getFloorTraversalPath().getFirst();
             int dropOffFloor = elevatorTraversalPath.getFloorTraversalPath().getLast();
 
-            System.out.println("Elevator current floor:> " + currentFloor +  " Executing traversal from pickupFloor:=> "+ pickUpFloor + " to dropOffFloor:=> " + dropOffFloor);
+            System.out.println("Elevator current floor:> " + elevator.getCurrentFloor() +  " Executing traversal from pickupFloor:=> "+ pickUpFloor + " to dropOffFloor:=> " + dropOffFloor);
             System.out.println();
 
-
-            if(currentFloor < pickUpFloor) {
-                // First move up to the pickup floor
+            // Execute traversal to get to pickup destination
+            if(elevator.getCurrentFloor() < pickUpFloor) {
                 System.out.println("Running elevator move up to pickup floor:> "+pickUpFloor);
-                while (elevator.getCurrentFloor() != pickUpFloor) {
+                while (elevator.getCurrentFloor() < pickUpFloor) {
                     moveElevatorUpToTargetFloor(pickUpFloor, elevator, elevatorTraversalPath);
                 }
+            } else if(elevator.getCurrentFloor() > pickUpFloor) {
+                System.out.println("Running elevator move up to pickup floor:> "+pickUpFloor);
+                while (elevator.getCurrentFloor() > pickUpFloor) {
+                    moveElevatorDownToTargetFloor(pickUpFloor, elevator, elevatorTraversalPath);
+                }
+            }
 
-                //  Now execute elevator up movement till we get to our drop off floor and complete operation
+            // Complete traversal to destination/drop off floor
+            if(elevator.getCurrentFloor() < dropOffFloor) {
                 System.out.println("Running elevator move up to drop off floor:> "+dropOffFloor);
-                while (elevator.getCurrentFloor() != dropOffFloor) {
+                while (elevator.getCurrentFloor() < dropOffFloor) {
                     moveElevatorUpToTargetFloor(dropOffFloor, elevator, elevatorTraversalPath);
                 }
-
-            }  else if(currentFloor > pickUpFloor) {
-                // Move down to target floor
-                moveElevatorDownToTargetFloor(pickUpFloor, elevator, elevatorTraversalPath);
+            } else if(elevator.getCurrentFloor() > dropOffFloor) {
+                System.out.println("Running elevator move down to drop floor:> "+dropOffFloor);
+                while (elevator.getCurrentFloor() > dropOffFloor) {
+                    moveElevatorDownToTargetFloor(dropOffFloor, elevator, elevatorTraversalPath);
+                }
             }
+
 
             // Complete all primary and combined floor traversals
             elevatorTraversalPath.completePrimaryFloorTraversalPath();

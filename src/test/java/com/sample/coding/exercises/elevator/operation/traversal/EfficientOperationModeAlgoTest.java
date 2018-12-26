@@ -1,4 +1,4 @@
-package com.sample.coding.exercises.elevator.operation;
+package com.sample.coding.exercises.elevator.operation.traversal;
 
 import com.sample.coding.exercises.elevator.model.ElevatorOperationRequest;
 import com.sample.coding.exercises.elevator.operation.traversal.EfficientTraversalModeStrategy;

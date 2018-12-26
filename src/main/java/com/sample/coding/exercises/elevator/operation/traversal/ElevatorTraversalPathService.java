@@ -107,4 +107,8 @@ public class ElevatorTraversalPathService implements IElevatorTraversalPathServi
 
         return ElevatorDirectionE.Down;
     }
+
+    void setITraversalModeStrategy(ITraversalModeStrategy iTraversalModeStrategy) {
+        this.iTraversalModeStrategy = iTraversalModeStrategy;
+    }
 }

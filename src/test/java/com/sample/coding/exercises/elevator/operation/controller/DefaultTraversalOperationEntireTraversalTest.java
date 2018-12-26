@@ -27,7 +27,7 @@ public class DefaultTraversalOperationEntireTraversalTest {
     private DefaultTraversalOperation defaultTraversalOperation;
 
 
-    //@Test
+    @Test
     public void testExecuteElevatorTraversalToDestinationFloorUpSinglePath() {
         Elevator elevator = new Elevator(12);
         Assert.assertEquals(1, elevator.getCurrentFloor());
@@ -71,6 +71,27 @@ public class DefaultTraversalOperationEntireTraversalTest {
         Assert.assertTrue(stopFloorsOnTraversalPath.contains(4));
         Assert.assertTrue(stopFloorsOnTraversalPath.contains(8));
         Assert.assertTrue(stopFloorsOnTraversalPath.contains(10));
+    }
+
+    @Test
+    public void testExecuteElevatorTraversalToDestinationFloorDownSinglePath() {
+        Elevator elevator = new Elevator(12);
+        Assert.assertEquals(1, elevator.getCurrentFloor());
+        ElevatorTraversalPath elevatorTraversalPath1 = ElevatorTraversalPath.newInstance(10, 9, 8, 7, 6, 5, 4, 3, 2);
+
+        // Execute traversal to destination floor
+        defaultTraversalOperation.executeElevatorTraversalToDestinationFloor(elevator, elevatorTraversalPath1);
+
+        // All floors elevator stopped on during this traversal
+        LinkedList<Integer> stopFloorsOnTraversalPath = elevatorTraversalPath1.getStopFloorsOnTraversalPath();
+
+        // We expect current elevator floor to be on 2 since pickup was done on 10 and drop off on 2
+        Assert.assertEquals(2, elevator.getCurrentFloor());
+
+        // Stop floors should only be 2 and 10
+        Assert.assertTrue(stopFloorsOnTraversalPath.size() == 2);
+        Assert.assertTrue(stopFloorsOnTraversalPath.contains(10));
+        Assert.assertTrue(stopFloorsOnTraversalPath.contains(2));
     }
 
 }

@@ -49,8 +49,12 @@ class SimpleElevatorRequestsSimulation implements Runnable {
         System.out.println("Starting Elevator simulation....");
 
 
-        System.out.println("Submitting simulate request");
-        ElevatorOperationRequest elevatorOperationRequest = ElevatorOperationRequest.newInstance(2, 10);
+        // Simulate an upwards elevator traversal
+//        ElevatorOperationRequest elevatorOperationRequest = ElevatorOperationRequest.newInstance(2, 10);
+//        iElevatorOperationController.acceptElevatorOperationRequest(elevatorOperationRequest);
+
+        // Simulate a downwards elevator traversal
+        ElevatorOperationRequest elevatorOperationRequest = ElevatorOperationRequest.newInstance(8, 3);
         iElevatorOperationController.acceptElevatorOperationRequest(elevatorOperationRequest);
 
 

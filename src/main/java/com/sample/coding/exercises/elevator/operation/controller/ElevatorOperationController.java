@@ -39,7 +39,7 @@ public class ElevatorOperationController implements IElevatorOperationController
     public void acceptElevatorOperationRequest(ElevatorOperationRequest elevatorOperationRequest) {
         Assert.notNull(elevatorOperationRequest, "elevatorOperationRequest cannot be null");
         ElevatorTraversalPath elevatorTraversalPath = iElevatorTraversalPathService.computeElevatorTraversalPath(elevator, elevatorOperationRequest);
-        System.out.println("adding to traversal list");
+        System.out.println("adding to traversal list:>  "+ elevatorTraversalPath);
         iTraversalOperation.addElevatorTraversalPath(elevatorTraversalPath);
     }
 

@@ -27,9 +27,6 @@ public class InEfficientTraversalModeStrategy implements ITraversalModeStrategy 
         int pickupFloor = elevatorOperationRequest.getPickupFloor();
         int dropOffFloor = elevatorOperationRequest.getDropOffFloor();
 
-        // Compute and populate the path to get to the pickup floor first
-        computePathToDestinationFloor(currentElevatorFloor, pickupFloor, traversalPath);
-
         // Compute and populate the path to get to the drop off floor
         computePathToDestinationFloor(pickupFloor, dropOffFloor, traversalPath);
 

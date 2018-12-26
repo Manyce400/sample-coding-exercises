@@ -26,16 +26,10 @@ public interface ITraversalModeStrategy {
 
     default void computePathToDestinationFloor(int startFloor, int destinationFloor, LinkedList<Integer> traversalPath) {
         if(destinationFloor > startFloor) {
-            // We need to move up to the pickup floor destination
-            // Skip the current floor in the path when moving up
-            startFloor++;
             for(int i = startFloor; i <= destinationFloor; i++) {
                 traversalPath.add(i);
             }
         } else if(destinationFloor < startFloor) {
-            // We need to move down to the pickup floor destination
-            // Skip the current floor in the path when moving down
-            startFloor--;
             for(int i = startFloor; i >= destinationFloor; i--) {
                 traversalPath.add(i);
             }

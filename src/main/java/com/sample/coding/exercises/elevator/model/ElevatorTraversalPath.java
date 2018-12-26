@@ -108,7 +108,7 @@ public class ElevatorTraversalPath {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
                 .append("totalFloorsTraveled", totalFloorsTraveled)
                 .append("floorTraversalPath", floorTraversalPath)
                 .append("chainedFloorTraversalPath", chainedFloorTraversalPath)
