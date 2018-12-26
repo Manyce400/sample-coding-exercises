@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author manyce400
@@ -32,13 +31,14 @@ class SimpleElevatorRequestsSimulation implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        for(int i = 0; i < 1; i++) {
             try {
                 // Sleep for a few before submitting next request
-                TimeUnit.SECONDS.sleep(4);
+                //TimeUnit.SECONDS.sleep(4);
+                System.out.println("Submitting simulate request");
                 ElevatorOperationRequest elevatorOperationRequest = ElevatorOperationRequest.newInstance(2, 10);
                 iElevatorOperationController.acceptElevatorOperationRequest(elevatorOperationRequest);
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -47,6 +47,23 @@ class SimpleElevatorRequestsSimulation implements Runnable {
     @PostConstruct
     void startSimulation() {
         System.out.println("Starting Elevator simulation....");
-        listeningExecutorService.submit(this);
+
+
+        System.out.println("Submitting simulate request");
+        ElevatorOperationRequest elevatorOperationRequest = ElevatorOperationRequest.newInstance(2, 10);
+        iElevatorOperationController.acceptElevatorOperationRequest(elevatorOperationRequest);
+
+
+//        try {
+//            TimeUnit.SECONDS.sleep(4);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        elevatorOperationRequest = ElevatorOperationRequest.newInstance(4, 8);
+//        iElevatorOperationController.acceptElevatorOperationRequest(elevatorOperationRequest);
+
+        //run();
+        //listeningExecutorService.submit(this);
     }
 }

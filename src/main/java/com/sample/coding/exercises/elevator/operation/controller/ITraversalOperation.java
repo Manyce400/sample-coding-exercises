@@ -9,6 +9,10 @@ import com.sample.coding.exercises.elevator.model.ElevatorTraversalPath;
 public interface ITraversalOperation {
 
 
+    public void executeContinuousElevatorTraversal(Elevator elevator);
+
     public void executeElevatorTraversalToDestinationFloor(Elevator elevator, ElevatorTraversalPath elevatorTraversalPath);
+
+    public void addElevatorTraversalPath(final ElevatorTraversalPath elevatorTraversalPath);
 
 }

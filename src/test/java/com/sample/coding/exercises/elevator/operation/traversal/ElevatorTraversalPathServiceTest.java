@@ -65,14 +65,19 @@ public class ElevatorTraversalPathServiceTest {
     
     
     @Test
-    public void testCombineElevatorTraversalPath() throws ElevatorTraversalPathException {
+    public void testCombineElevatorTraversalPath() {
         Elevator elevator = new Elevator(12);
         ElevatorTraversalPath elevatorTraversalPath1 = ElevatorTraversalPath.newInstance(2, 3, 4, 5, 6, 7, 8, 9, 10);
         ElevatorTraversalPath elevatorTraversalPath2 = ElevatorTraversalPath.newInstance(4, 5, 6, 7, 8);
         
         // combine the two paths
-        ElevatorTraversalPath newElevatorTraversalPath =  elevatorTraversalPathService.combineElevatorTraversalPath(elevator, elevatorTraversalPath1, elevatorTraversalPath2);
-        System.out.println("newElevatorTraversalPath = " + newElevatorTraversalPath);
+        try {
+            ElevatorTraversalPath newElevatorTraversalPath =  elevatorTraversalPathService.combineElevatorTraversalPath(elevator, elevatorTraversalPath1, elevatorTraversalPath2);
+            System.out.println("newElevatorTraversalPath = " + newElevatorTraversalPath);
+            Assert.assertTrue(newElevatorTraversalPath.containsAdditionalFloorTraversalPaths());
+        } catch (ElevatorTraversalPathException e) {
+            Assert.fail("Traversal paths should be combinable since they both travel up and floors covered can be serviced under 1 traversal operation");
+        }
     }
 
 }

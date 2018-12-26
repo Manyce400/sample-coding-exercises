@@ -23,6 +23,9 @@ public class ElevatorTraversalPath {
     // Contains in order all the floors that will be traversed on this current path elevator on.
     private LinkedList<Integer> floorTraversalPath;
 
+    // Contains all the floors that were stopped on as part of this traversal
+    private LinkedList<Integer> stopFloorsOnTraversalPath = new LinkedList<>();
+
     // If a secondary traversal path is combined with this, secondary details will be tracked in below list
     private LinkedList<LinkedList<Integer>> chainedFloorTraversalPath = new LinkedList<>();
 
@@ -42,6 +45,14 @@ public class ElevatorTraversalPath {
         return floorTraversalPath;
     }
 
+    public void completeStopOnPrimaryFloor(Integer floor) {
+        stopFloorsOnTraversalPath.add(floor);
+    }
+
+    public void completePrimaryFloorTraversalPath() {
+        floorTraversalPath.clear();
+    }
+
     public boolean containsAdditionalFloorTraversalPaths() {
         return chainedFloorTraversalPath.size() > 0;
     }
@@ -50,7 +61,17 @@ public class ElevatorTraversalPath {
         boolean stopOnFloor = false;
 
         for(LinkedList<Integer> traversalPath : chainedFloorTraversalPath) {
-            if(traversalPath.contains(floor)) {
+            // IF we have already stopped on this floor break out
+            if(stopFloorsOnTraversalPath.contains(floor)) {
+                stopOnFloor = false;
+                break;
+            }
+
+            // stop floors should only be the pickup floor or drop off floot
+            Integer pickUp = traversalPath.getFirst();
+            Integer dropOff = traversalPath.getLast();
+
+            if(pickUp == floor || dropOff == floor) {
                 stopOnFloor = true;
                 break;
             }
@@ -59,15 +80,35 @@ public class ElevatorTraversalPath {
         return stopOnFloor;
     }
 
+    public void completeStopOnCombinedPathFloor(Integer floor) {
+        for(LinkedList<Integer> traversalPath : chainedFloorTraversalPath) {
+            if(traversalPath.contains(floor) && !stopFloorsOnTraversalPath.contains(floor)) {
+                stopFloorsOnTraversalPath.add(floor);
+            }
+        }
+    }
+
+    public void completeAllCombinedPathTraversal() {
+        chainedFloorTraversalPath.clear();
+    }
+
+    public LinkedList<Integer> getStopFloorsOnTraversalPath() {
+        return stopFloorsOnTraversalPath;
+    }
+
     public void mergeFloorTraversalPath(LinkedList<Integer> floorTraversalPath) {
         Assert.notNull(floorTraversalPath, "floorTraversalPath cannot be null");
         Assert.isTrue(floorTraversalPath.size() >0, "floorTraversalPath cannot be empty");
         chainedFloorTraversalPath.add(floorTraversalPath);
     }
 
+    public boolean isTraversalComplete() {
+        return floorTraversalPath.size() == 0 &&  chainedFloorTraversalPath.size() == 0;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+        return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
                 .append("totalFloorsTraveled", totalFloorsTraveled)
                 .append("floorTraversalPath", floorTraversalPath)
                 .append("chainedFloorTraversalPath", chainedFloorTraversalPath)

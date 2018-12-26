@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.LinkedList;
-
 /**
  * @author manyce400
  */
@@ -15,12 +13,10 @@ import java.util.LinkedList;
 public class ElevatorTraversalPathService implements IElevatorTraversalPathService {
 
 
+
     @Autowired
     @Qualifier(InEfficientTraversalModeStrategy.SPRING_BEAN)
     private ITraversalModeStrategy iTraversalModeStrategy;
-
-    // Contains an ordered list of elevator operation request prioritized by insertion order.  First come first serve
-    private LinkedList<ElevatorOperationRequest> elevatorOperationRequests = new LinkedList<>();
 
     public static final String SPRING_BEAN = "com.sample.coding.exercises.elevator.operation.traversal.ElevatorTraversalPathService";
 

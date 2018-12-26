@@ -11,19 +11,22 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 /**
+ * Test targets individual elevator operation movements.  Moving elevator to pickup and drop off floors.
+ *
  * @author manyce400
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultTraversalOperationTest {
+public class DefaultTraversalOperationIndividualFloorsTest {
 
 
-    @Spy
-    private DefaultTraversalOperation defaultTraversalOperation;
 
     @Spy
     private ElevatorTraversalPathService elevatorTraversalPathService;
 
-    //@Test
+    @Spy
+    private DefaultTraversalOperation defaultTraversalOperation;
+
+    @Test
     public void testMoveElevatorUpToTargetFloorSinglePath() throws InterruptedException {
         Elevator elevator = new Elevator(12);
         Assert.assertEquals(1, elevator.getCurrentFloor());
@@ -35,7 +38,7 @@ public class DefaultTraversalOperationTest {
         Assert.assertEquals(2, elevator.getCurrentFloor());
     }
 
-    //@Test
+    @Test
     public void testMoveElevatorUpToTargetFloorMultiPath() throws InterruptedException, ElevatorTraversalPathException {
         Elevator elevator = new Elevator(12);
         Assert.assertEquals(1, elevator.getCurrentFloor());
@@ -65,7 +68,7 @@ public class DefaultTraversalOperationTest {
         Assert.assertEquals(4, elevator.getCurrentFloor());
     }
 
-    //@Test
+    @Test
     public void testMoveElevatorDownToTargetFloorSinglePath() throws InterruptedException {
         Elevator elevator = new Elevator(12);
         elevator.setCurrentFloor(10);
@@ -99,14 +102,15 @@ public class DefaultTraversalOperationTest {
 
         // Reset Elevator and travel paths to verify new behavior
         elevator = new Elevator(12);
-        elevatorTraversalPath1 = ElevatorTraversalPath.newInstance(6, 5, 4, 3, 2);
-        elevatorTraversalPath2 = ElevatorTraversalPath.newInstance(8, 7, 6, 5, 4);
+        elevator.setCurrentFloor(10);
+        elevatorTraversalPath1 = ElevatorTraversalPath.newInstance(7, 6, 5, 6, 3, 2);
+        elevatorTraversalPath2 = ElevatorTraversalPath.newInstance(5, 4);
         newElevatorTraversalPath =  elevatorTraversalPathService.combineElevatorTraversalPath(elevator, elevatorTraversalPath1, elevatorTraversalPath2);
 
         // Execute traversal, we now expect the elevator to first stop on floor 4 to service main pickup passengers on primary traversal path before proceeding to 5
-        defaultTraversalOperation.moveElevatorDownToTargetFloor(5, elevator, newElevatorTraversalPath);
+        defaultTraversalOperation.moveElevatorDownToTargetFloor(7, elevator, newElevatorTraversalPath);
         System.out.println("Current Elevator floor after move:> "+ elevator.getCurrentFloor());
-        Assert.assertEquals(4, elevator.getCurrentFloor());
+        Assert.assertEquals(7, elevator.getCurrentFloor());
     }
 
 }
